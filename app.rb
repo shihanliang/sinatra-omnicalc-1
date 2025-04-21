@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "active_support/all"
 
 get("/") do
   "
@@ -44,4 +45,16 @@ get("/payment/new") do
   erb :payment_form
 end
 
+get("/payment/results") do
+  apr = params[:user_apr].to_f / 100
+  @monthly_rate = apr / 12
+  years = params[:user_years].to_i
+  pv = params[:user_pv].to_f
+  n = years * 12
 
+  @numerator = @monthly_rate * pv
+  @denominator = 1 - (1 + @monthly_rate) ** -n
+  @payment = @numerator / @denominator
+
+  erb :payment_results
+end

@@ -1,0 +1,3 @@
+<p>Your monthly payment is <%= @payment.to_fs(:currency) %>.</p>
+<p>APR: <%= @monthly_rate.to_fs(:percentage, { precision: 4 }) %></p>
+
